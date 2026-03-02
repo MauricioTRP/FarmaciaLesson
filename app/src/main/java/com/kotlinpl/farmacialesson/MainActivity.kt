@@ -1,5 +1,6 @@
 package com.kotlinpl.farmacialesson
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,8 @@ import com.kotlinpl.farmacialesson.ui.components.DrugstoreScreen
 import com.kotlinpl.farmacialesson.ui.theme.FarmaciaLessonTheme
 
 class MainActivity : ComponentActivity() {
+//    private val context = Context()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +30,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+
     }
 }
 
