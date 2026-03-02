@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FarmaciaLesson</string>
+    <string name="serialization_error">Serialization Error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>

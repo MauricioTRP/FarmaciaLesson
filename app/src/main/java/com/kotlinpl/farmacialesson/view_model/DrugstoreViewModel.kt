@@ -8,6 +8,7 @@ import com.kotlinpl.farmacialesson.data.repository.DrugstoreRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerializationException
 
 class DrugstoreViewModel(
     private val repository: DrugstoreRepository = DrugstoreRepositoryImpl(),
@@ -34,25 +35,30 @@ class DrugstoreViewModel(
                         error = null
                     )
                 } else {
-                    // Algo salio mal
-                    val errorMessage = result.exceptionOrNull()?.message ?: "Unknown error"
+                    throw result.exceptionOrNull() ?: SerializationException("Serialization Error")
+                }
+            } catch (e: SerializationException) {
+                    val errorMessage = e.message
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         drugstores = emptyList(),
-                        error = errorMessage
+                        error = DrugstoresErrors.SerializationError
                     )
-
                     Log.e("DrugstoreViewModel", "Error fetching drugstores: $errorMessage")
-                }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     drugstores = emptyList(),
-                    error = e.message ?: "Unknown error"
+                    error = DrugstoresErrors.UnknownError
                 )
 
                 Log.e("DrugstoreViewModel", "Error fetching drugstores", e)
             }
         }
     }
+}
+
+enum class DrugstoresErrors {
+    SerializationError,
+    UnknownError
 }

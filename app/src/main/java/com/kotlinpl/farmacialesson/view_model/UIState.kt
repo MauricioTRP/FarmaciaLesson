@@ -5,6 +5,6 @@ import com.kotlinpl.farmacialesson.data.model.Drugstore
 data class UIState(
     val isLoading: Boolean = false,
     val drugstores: List<Drugstore> = emptyList(),
-    val error: String? = null
+    val error: DrugstoresErrors? = null
 )
 

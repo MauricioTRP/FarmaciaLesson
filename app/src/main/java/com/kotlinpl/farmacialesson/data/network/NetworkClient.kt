@@ -28,7 +28,8 @@ class NetworkClient {
                     isLenient = true
                     ignoreUnknownKeys = true
                     encodeDefaults = false
-                }
+                },
+                contentType = ContentType.Text.Html
             )
             xml()
         }

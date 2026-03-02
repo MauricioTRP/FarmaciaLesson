@@ -11,7 +11,7 @@ class DrugstoreRepositoryImpl(
 ) : DrugstoreRepository {
     override suspend fun getDrugstores(): Result<List<Drugstore>> {
         return runCatching {
-            apiService.getDrugstores().body<ResponseDrugstore>().data
+            apiService.getDrugstores().body<List<Drugstore>>()
         }
     }
 }
