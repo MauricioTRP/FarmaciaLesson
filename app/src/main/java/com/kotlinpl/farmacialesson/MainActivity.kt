@@ -1,6 +1,5 @@
 package com.kotlinpl.farmacialesson
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kotlinpl.farmacialesson.ui.components.DrugstoreScreen
 import com.kotlinpl.farmacialesson.ui.theme.FarmaciaLessonTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 //    private val context = Context()
 

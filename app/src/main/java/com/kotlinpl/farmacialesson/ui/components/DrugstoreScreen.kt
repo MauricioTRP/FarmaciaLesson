@@ -10,17 +10,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.kotlinpl.farmacialesson.R
 import com.kotlinpl.farmacialesson.view_model.DrugstoreViewModel
 import com.kotlinpl.farmacialesson.view_model.DrugstoresErrors
+import com.kotlinpl.farmacialesson.view_model.LocationViewModel
 
 @Composable
 fun DrugstoreScreen(
     modifier: Modifier = Modifier,
-    viewModel: DrugstoreViewModel = viewModel()
-) {
-    val uiState = viewModel.uiState.collectAsState()
+    drugstoreViewModel: DrugstoreViewModel = hiltViewModel(),
+    locationViewModel: LocationViewModel = hiltViewModel()
+    ) {
+    val uiState = drugstoreViewModel.uiState.collectAsState()
+    val locationState = locationViewModel.location.collectAsState()
 
     if(uiState.value.isLoading) {
         Column(
@@ -43,7 +46,7 @@ fun DrugstoreScreen(
         Log.e("DrugstoreScreen", "Error: ${uiState.value.error}")
     } else {
         DrugstoreList(
-            drugstores = uiState.value.drugstores,
+            drugstoreResponses = uiState.value.drugstoreResponses,
             modifier = modifier
         )
     }

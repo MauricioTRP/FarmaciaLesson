@@ -3,15 +3,19 @@ package com.kotlinpl.farmacialesson.view_model
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kotlinpl.farmacialesson.data.model.toDrugstore
 import com.kotlinpl.farmacialesson.data.repository.DrugstoreRepository
-import com.kotlinpl.farmacialesson.data.repository.DrugstoreRepositoryImpl
+import com.kotlinpl.farmacialesson.util.Location
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
+import javax.inject.Inject
 
-class DrugstoreViewModel(
-    private val repository: DrugstoreRepository = DrugstoreRepositoryImpl(),
+@HiltViewModel
+class DrugstoreViewModel @Inject constructor (
+    private val repository: DrugstoreRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UIState())
     val uiState = _uiState.asStateFlow()
@@ -31,7 +35,7 @@ class DrugstoreViewModel(
 
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        drugstores = drugstores,
+                        drugstoreResponses = drugstores.map { it.toDrugstore() },
                         error = null
                     )
                 } else {
@@ -41,20 +45,24 @@ class DrugstoreViewModel(
                     val errorMessage = e.message
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        drugstores = emptyList(),
+                        drugstoreResponses = emptyList(),
                         error = DrugstoresErrors.SerializationError
                     )
                     Log.e("DrugstoreViewModel", "Error fetching drugstores: $errorMessage")
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    drugstores = emptyList(),
+                    drugstoreResponses = emptyList(),
                     error = DrugstoresErrors.UnknownError
                 )
 
                 Log.e("DrugstoreViewModel", "Error fetching drugstores", e)
             }
         }
+    }
+    
+    fun sortDrugstores(location: Location) {
+        
     }
 }
 

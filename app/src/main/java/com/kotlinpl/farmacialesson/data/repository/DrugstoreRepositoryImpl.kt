@@ -1,17 +1,17 @@
 package com.kotlinpl.farmacialesson.data.repository
 
-import com.kotlinpl.farmacialesson.data.model.Drugstore
-import com.kotlinpl.farmacialesson.data.model.ResponseDrugstore
+import com.kotlinpl.farmacialesson.data.model.DrugstoreResponse
 import com.kotlinpl.farmacialesson.data.network.ApiService
 import io.ktor.client.call.body
+import javax.inject.Inject
 
-class DrugstoreRepositoryImpl(
-    private val apiService: ApiService = ApiService(),
+class DrugstoreRepositoryImpl @Inject constructor (
+    private val apiService: ApiService,
     // Otras dependencias SQLite
 ) : DrugstoreRepository {
-    override suspend fun getDrugstores(): Result<List<Drugstore>> {
+    override suspend fun getDrugstores(): Result<List<DrugstoreResponse>> {
         return runCatching {
-            apiService.getDrugstores().body<List<Drugstore>>()
+            apiService.getDrugstores().body<List<DrugstoreResponse>>()
         }
     }
 }

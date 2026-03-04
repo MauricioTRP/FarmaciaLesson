@@ -9,7 +9,6 @@ data class Location(
     val lat: Double,
     val long: Double
 ) {
-
     fun distanceTo(other: Location): Float {
         val latDistance = Math.toRadians(other.lat - lat)
         val longDistance = Math.toRadians(other.long - long)
