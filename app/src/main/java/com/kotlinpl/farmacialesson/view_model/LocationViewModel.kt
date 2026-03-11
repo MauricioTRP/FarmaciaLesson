@@ -67,7 +67,29 @@ class LocationViewModel @Inject constructor (
         }
     }
 
-    fun onPermissionResult() {}
+    @SuppressLint("MissingPermission")
+    fun updateCurrentLocation() {
+        fusedLocationClient.flushLocations()
+
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+            .build()
+
+        fusedLocationClient.getCurrentLocation(
+            locationRequest.priority,
+            null
+        ).addOnSuccessListener { location ->
+            if (location != null) {
+                _location.update {
+                    Location(
+                        lat = location.latitude,
+                        long = location.longitude
+                    )
+                }
+            }
+        }
+
+    }
+
 
     fun hasLocationPermission() :Boolean {
         return ContextCompat.checkSelfPermission(

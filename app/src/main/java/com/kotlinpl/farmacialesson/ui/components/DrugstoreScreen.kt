@@ -49,7 +49,7 @@ fun DrugstoreScreen(
         }
     }
 
-    LaunchedEffect(locationViewModel.location) {
+    LaunchedEffect(locationState.value) {
         if (locationViewModel.location.value != null) {
             drugstoreViewModel.sortDrugstores(locationViewModel.location.value!!)
         }
@@ -74,7 +74,7 @@ fun DrugstoreScreen(
                         settingResultRequest.launch(intentRequestSender)
                     },
                     onSettingEnable = {
-                        locationViewModel.getCurrentLocation()
+                        locationViewModel.updateCurrentLocation()
                     }
                 )
             }
